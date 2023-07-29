@@ -2,26 +2,42 @@
 
 import fs from 'fs';
 import path from 'path';
-import genDiff from '../src/index.js';
-import { program } from 'commander';
-import { fileURLToPath } from 'url';
+import { Command } from 'commander';
+import _ from 'lodash';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const genDiff = (filepath1, filepath2) => {
+	const data1 = fs.readFileSync(filepath1, 'utf-8');
+	const data2 = fs.readFileSync(filepath2, 'utf-8');
 
-program
-	.arguments('<filepath1> <filepath2>')
-	.description('Compares two configuration files and shows a difference.')
-	.option('-f, --format <type>', 'output format')
-	.action((filepath1, filepath2) => {
-		const fullPath1 = path.resolve(process.cwd(), filepath1);
-		const fullPath2 = path.resolve(process.cwd(), filepath2);
+	const obj1 = JSON.parse(data1);
+	const obj2 = JSON.parse(data2);
 
-		const file1Data = fs.readFileSync(fullPath1, 'utf-8');
-		const file2Data = fs.readFileSync(fullPath2, 'utf-8');
+	const keys = _.union(Object.keys(obj1), Object.keys(obj2)).sort();
 
-		const diff = genDiff(JSON.parse(file1Data), JSON.parse(file2Data));
-		console.log(diff);
+	const diff = keys.map((key) => {
+		if (_.has(obj1, key) && _.has(obj2, key)) {
+			if (_.isEqual(obj1[key], obj2[key])) {
+				return `  ${key}: ${obj1[key]}`;
+			}
+			return [`+ ${key}: ${obj2[key]}`, `- ${key}: ${obj1[key]}`];
+		}
+		if (_.has(obj1, key)) {
+			return `- ${key}: ${obj1[key]}`;
+		}
+		return `+ ${key}: ${obj2[key]}`;
 	});
+
+	return `{\n${diff.flat().join('\n')}\n}`;
+};
+
+const program = new Command();
+program.version('0.1.0');
+program.arguments('<filepath1> <filepath2>');
+program.description('Compares two configuration files and shows a difference.');
+program.action((filepath1, filepath2) => {
+	const resolvedPath1 = path.resolve(filepath1);
+	const resolvedPath2 = path.resolve(filepath2);
+	console.log(genDiff(resolvedPath1, resolvedPath2));
+});
 
 program.parse(process.argv);
