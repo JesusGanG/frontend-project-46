@@ -1,6 +1,7 @@
 {
   "name": "@hexlet/code",
   "version": "1.0.0",
+  "type": "module",
   "description": "[![Actions Status](https://github.com/JesusGanG/frontend-project-46/workflows/hexlet-check/badge.svg)](https://github.com/JesusGanG/frontend-project-46/actions)",
   "main": "index.js",
   "scripts": {
@@ -17,6 +18,8 @@
   },
   "homepage": "https://github.com/JesusGanG/frontend-project-46#readme",
   "dependencies": {
-    "commander": "^11.0.0"
+    "commander": "^11.0.0",
+    "fs": "^0.0.1-security",
+    "lodash": "^4.17.21"
   }
 }
