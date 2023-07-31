@@ -13,7 +13,6 @@ program
 	.argument('<filepath2>')
 	.action((filepath1, filepath2) => {
 		const options = program.opts();
-		// eslint-disable-next-line no-console
 		console.log(genDiff(filepath1, filepath2, options.format));
 	});
 
