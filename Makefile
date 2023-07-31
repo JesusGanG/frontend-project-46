@@ -1,3 +1,12 @@
+install: install-deps
+	npx simple-git-hooks
+install-deps:
+	npm ci
 lint:
-	npx eslint .
-	
+	npx eslint --fix .
+gendiff:
+	node bin/gendiff.js
+test:
+	npx jest
+test-coverage:
+	npm test -- --coverage --coverageProvider=v8
