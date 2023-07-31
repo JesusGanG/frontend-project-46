@@ -1,4 +1,4 @@
-import stringParserToObject from '../src/parsers.js';
+import stringParserToObject from './src/parsers.js';
 
 const file1STR = `{
   "host": "hexlet.io",
