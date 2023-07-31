@@ -4,7 +4,7 @@
   "description": "[![Actions Status](https://github.com/JesusGanG/frontend-project-46/workflows/hexlet-check/badge.svg)](https://github.com/JesusGanG/frontend-project-46/actions)",
   "main": "gendiff.js",
   "scripts": {
-    "start": "node gendiff.js"
+    "test": "npx jest"
   },
   "repository": {
     "type": "git",
@@ -24,7 +24,9 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
+    "@jest/globals": "^29.6.2",
     "eslint": "^8.46.0",
+    "esm": "^3.2.25",
     "jest": "^29.6.2"
   }
 }
