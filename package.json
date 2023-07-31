@@ -1,9 +1,12 @@
 {
 	"name": "@hexlet/code",
-	"type": "module",
 	"version": "1.0.0",
+	"type": "module",
 	"description": "[![Actions Status](https://github.com/JesusGanG/frontend-project-46/workflows/hexlet-check/badge.svg)](https://github.com/JesusGanG/frontend-project-46/actions)",
 	"main": "./src/index.js",
+	"simple-git-hooks": {
+		"pre-push": "make lint"
+	},
 	"scripts": {
 		"test": "npx jest"
 	},
