@@ -6,25 +6,10 @@ import stringParserToObject from './parsers.js';
 import formatSelector from './formatters/index.js';
 
 // проверка расширений файлов, определение дальнешего пути работы
-export const checkFileExtension = (pathGiven) => {
-	const [JSON, YML] = ['JSON', 'YML'];
-	if (path.extname(pathGiven) === '.json' || path.extname(pathGiven) === '.JSON') {
-		return JSON;
-	}
-	if (['.yml', '.YML', '.YAML', '.yaml'].includes(path.extname(pathGiven))) {
-		return YML;
-	}
-	console.log('unexpected file extension. Try yml/yaml or json');
-	return null;
-};
+export const checkFileExtension = (pathGiven) => path.extname(pathGiven).slice(1)
 
 // Превращатель пути в абсолютный
-export const pathAbsolutizer = (pathGiven) => {
-	if (pathGiven.startsWith('/')) {
-		return pathGiven;
-	}
-	return path.resolve(pathGiven);
-};
+export const pathAbsolutizer = (pathGiven) => path.resolve(process.cwd(), pathGiven);
 
 // Извлекаем строку из файла по указанному пути
 export const fileStringExtractor = (absPath) => fs.readFileSync(absPath, 'UTF-8');
