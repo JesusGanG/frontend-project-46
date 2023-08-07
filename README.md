@@ -39,3 +39,9 @@ console.log(diff);
 [![asciicast](https://asciinema.org/a/R5UohlaXCy6Pt9SFEBBXDyoHG.svg)](https://asciinema.org/a/R5UohlaXCy6Pt9SFEBBXDyoHG)
 ### Compare JSON vs JSON, YML vs YML, JSON vs YML
 [![asciicast](https://asciinema.org/a/JPQLyvuK1f1EV6HNXvOghmkWw.svg)](https://asciinema.org/a/JPQLyvuK1f1EV6HNXvOghmkWw)
+### Comparing nested JSONs and YMLs, default format output (stylish)
+[![asciicast](https://asciinema.org/a/qBxt4NWRvkAReNbeWXvFv2T2V.svg)](https://asciinema.org/a/qBxt4NWRvkAReNbeWXvFv2T2V)
+### comparing nested files, plain format output
+[![asciicast](https://asciinema.org/a/vwMBMSsAxyMJfWxGqI3T6DCoK.svg)](https://asciinema.org/a/vwMBMSsAxyMJfWxGqI3T6DCoK)
+### comparing nested files, JSON format output
+[![asciicast](https://asciinema.org/a/Pg9nQwPYdvAuX3IGt7bRZoMH5.svg)](https://asciinema.org/a/Pg9nQwPYdvAuX3IGt7bRZoMH5)
