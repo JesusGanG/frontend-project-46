@@ -14,7 +14,26 @@ Supporting formats: JSON, YML, YAML.
 4. Run the command: ```make install-deps```
 ```shell
 
+## How to use:
+You can use it as a script in terminal or as a library in your JavaScript project. You can format difference in three styles: stylish (default), plain and json. You can choose replacer: (default: "    ") or custom replacer for json and stylish format.
+```shell
+$ gendiff -h
+Usage: gendiff [options] <filepath1> <filepath2>
 
+Compares two configuration files and shows a difference.
+
+Options:
+  -V, --version          output the version number
+  -f, --format <type>    output format (choices: "stylish", "plain", "json", default: "stylish")
+  -r, --replacer <char>  output replacer (default: "    ")
+  -h, --help             display help for command
+```
+## Use in your project:
+```javascript
+import genDiff from '@hexlet/code';
+const diff = genDiff(filepath1, filepath2[, { format, replacer }]);
+console.log(diff);
+```
 ## Demonstration of the **genDiff** utility:
 ### Compare files in stylish format:
-[![asciicast](https://asciinema.org/a/R5UohlaXCy6Pt9SFEBBXDyoHG.svg)](https://asciinema.org/a/R5UohlaXCy6Pt9SFEBBXDyoHG) 
+[![asciicast](https://asciinema.org/a/R5UohlaXCy6Pt9SFEBBXDyoHG.svg)](https://asciinema.org/a/R5UohlaXCy6Pt9SFEBBXDyoHG)
