@@ -9,8 +9,8 @@ Technology stack: Node.js, Commander.JS, Jest, npm, ESLint (airbnb), Git, GitHub
 Supporting formats: JSON, YML, YAML.
 ## How to install:
 1. Make sure you have installed [Node.js](https://nodejs.org/en/) no lower version 12: ```node -v```
-2. Clone repository: ```git@github.com:Kalifull/frontend-project-lvl2.git```
-3. Change directory to frontend-project-lvl2
+2. Clone repository: ```git@github.com:JesusGanG/frontend-project-46.git```
+3. Change directory to frontend-project-46
 4. Run the command: ```make install-deps```
 ```shell
 $ git clone git@github.com:JesusGanG/frontend-project-46.git
