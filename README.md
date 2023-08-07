@@ -17,4 +17,4 @@ Supporting formats: JSON, YML, YAML.
 
 ## Demonstration of the **genDiff** utility:
 ### Compare files in stylish format:
-[![asciicast](https://asciinema.org/a/wTOyVJbDT1uVqqCvObO5qLjyG.svg)](https://asciinema.org/a/y1eDsnmfDcJlboyLhETJcKcw3)
+[![asciicast](https://asciinema.org/a/wTOyVJbDT1uVqqCvObO5qLjyG.svg)](https://asciinema.org/connect/9230039a-0982-40ca-a796-b49e49465ef9)
