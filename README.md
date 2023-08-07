@@ -37,3 +37,5 @@ console.log(diff);
 ## Demonstration of the **genDiff** utility:
 ### Compare files in stylish format:
 [![asciicast](https://asciinema.org/a/R5UohlaXCy6Pt9SFEBBXDyoHG.svg)](https://asciinema.org/a/R5UohlaXCy6Pt9SFEBBXDyoHG)
+### Compare JSON vs JSON, YML vs YML, JSON vs YML
+[![asciicast](https://asciinema.org/a/JPQLyvuK1f1EV6HNXvOghmkWw.svg)](https://asciinema.org/a/JPQLyvuK1f1EV6HNXvOghmkWw)
