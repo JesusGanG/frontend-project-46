@@ -13,9 +13,7 @@ Supporting formats: JSON, YML, YAML.
 3. Change directory to frontend-project-46
 4. Run the command: ```make install-deps```
 ```shell
-$ git clone git@github.com:JesusGanG/frontend-project-46.git
-$ cd frontend-project-46
-$ make install-deps
+
 
 ## Demonstration of the **genDiff** utility:
 ### Compare files in stylish format:
