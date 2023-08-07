@@ -3,10 +3,11 @@ import plain from './plain.js';
 import json from './json.js';
 
 const formatSelector = (compareTree, format) => {
-  if (format === 'stylish') return `{\n${stylish(compareTree)}}`;
-  if (format === 'plain') return plain(compareTree);
-  if (format === 'json' || format === 'JSON') return json(compareTree);
-  return ('Error: Enter valid format or use default - stylish');
+  const formatLowerCase = format.toLowerCase();
+  if (formatLowerCase === 'stylish') return stylish(compareTree);
+  if (formatLowerCase === 'plain') return plain(compareTree);
+  if (formatLowerCase === 'json') return json(compareTree);
+  throw new Error('Enter valid format or use default - stylish');
 };
 
 export default formatSelector;

@@ -1,14 +1,14 @@
 import YAML from 'yaml';
 
 const stringParserToObject = (contentString, format) => {
-  if (format === 'JSON') {
+  const formatUpperCase = format.toUpperCase();
+  if (formatUpperCase === 'JSON') {
     return JSON.parse(contentString);
   }
-  if (format === 'YML') {
+  if (formatUpperCase === 'YAML' || formatUpperCase === 'YML') {
     return YAML.parse(contentString);
   }
-  console.log('unknown format type. Try YAML or JSON');
-  return null;
+  throw new Error('unknown format type. Try YAML or JSON');
 };
 
 export default stringParserToObject;

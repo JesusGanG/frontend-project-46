@@ -1,41 +1,29 @@
-const plain = (arrayTree) => {
-  // node structure = {key, status, depth, value1, value2}
-  // statuses: removed, added, equal, modified, stringified1, stringified2
-  const [removed, added, modified, equal, nested, stringified1, stringified2] = ['removed', 'added', 'modified', 'equal', 'nested', 'stringified1', 'stringified2'];
+import _ from 'lodash';
 
-  const iter = (array, ancestry) => {
-    const objectFormatter = (acc, object) => {
-      const {
-        key, status, value1, value2,
-      } = object;
-      // To prevent '.' in the begin of the path (like '.a.b.c')
-      const newPath = ancestry === '' ? key : `${ancestry}.${key}`;
-      // set quotes for string values, no quotes for others
-      const value1Quotes = typeof (value1) === 'string' ? `'${value1}'` : value1;
-      const value2Quotes = typeof (value2) === 'string' ? `'${value2}'` : value2;
-
-      switch (status) {
-        case removed:
-          return `${acc}Property '${newPath}' was removed\n`;
-        case added:
-          return `${acc}Property '${newPath}' was added with value: ${value2Quotes}\n`;
-        case modified:
-          return `${acc}Property '${newPath}' was updated. From ${value1Quotes} to ${value2Quotes}\n`;
-        case nested:
-          return `${acc}${iter(value1, newPath)}`;
-        case stringified1:
-          return `${acc}${value2 === undefined ? `Property '${newPath}' was removed\n` : `Property '${newPath}' was updated. From [complex value] to ${value2Quotes}\n`}`;
-        case stringified2:
-          return `${acc}${value1 === undefined ? `Property '${newPath}' was added with value: [complex value]\n` : `Property '${newPath}' was updated. From ${value1Quotes} to [complex value]\n`}`;
-        case equal:
-          return acc;
-        default:
-          throw new Error(`Unknown status: ${status}`);
-      }
-    };
-    return array.reduce(objectFormatter, '');
-  };
-  return (iter(arrayTree, '')).slice(0, -1); // slice to cut the last \n
+const formatItem = (item) => {
+  if (_.isObject(item)) {
+    return '[complex value]';
+  }
+  return _.isString(item) ? `'${item}'` : item;
 };
 
-export default plain;
+const formatToPlain = (data) => {
+  const getItems = (items, path) => items.flatMap((item) => {
+    const newPath = [...path, item.key];
+    switch (item.status) {
+      case 'nested':
+        return getItems(item.children, newPath);
+      case 'added':
+        return `Property '${newPath.join('.')}' was added with value: ${formatItem(item.value)}`;
+      case 'removed':
+        return `Property '${newPath.join('.')}' was removed`;
+      case 'changed':
+        return `Property '${newPath.join('.')}' was updated. From ${formatItem(item.oldValue)} to ${formatItem(item.newValue)}`;
+      default:
+        return [];
+    }
+  });
+  return getItems(data, []).join('\n');
+};
+
+export default formatToPlain;

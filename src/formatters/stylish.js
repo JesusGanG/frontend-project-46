@@ -1,65 +1,49 @@
 import _ from 'lodash';
 
-const stylish = (array, space = '    ') => {
-  // node structure = {key, status, depth, value1, value2}
-  // statuses: removed, added, equal, modified, stringified1, stringified2
-  const spaceLength = space.length;
-  const [removedSign, addedSign, equalSign] = ['- ', '+ ', '  '];
-  const [removed, added, equal, modified, nested, stringified1, stringified2] = ['removed', 'added', 'equal', 'modified', 'nested', 'stringified1', 'stringified2'];
-  const leftMargin = equalSign.length;
+const spaceBeforeBracket = 4;
 
-  // Обработка случая, когда значения ключа с одной стороны - Объект, с другой - нет.
-  // Выдача объекта строкой.
-  const stringifyObj = (obj, innderDepth) => {
-    const margin = space.repeat(innderDepth);
-    const objString = Object.keys(obj)
-      .reduce((acc, key) => {
-        const value = obj[key];
-        if (!_.isObject(value)) {
-          return `${acc}\n${margin}${key}: ${value}`;
-        }
-        return `${acc}\n${margin}${key}: ${stringifyObj(value, innderDepth + 1)}`;
-      }, '');
-    const resultString = `{${objString}\n${margin.slice(0, -spaceLength)}}`;
-    return resultString;
-  };
-
-  // Обработка объекта - ребенка из массива value
-  const iter = (acc, object) => {
-    const {
-      key, status, depth, value1, value2,
-    } = object;
-    const margin = space.repeat(depth).slice(0, -leftMargin);
-    const marginSizeOfEqualSign = margin.slice(0, leftMargin);
-
-    switch (status) {
-      case removed:
-        return `${acc}${margin}${removedSign}${key}: ${value1}\n`;
-      case added:
-        return `${acc}${margin}${addedSign}${key}: ${value2}\n`;
-      case equal:
-        return `${acc}${margin}${equalSign}${key}: ${value1}\n`;
-      case modified:
-        return `${acc}${margin}${removedSign}${key}: ${value1}\n${margin}${addedSign}${key}: ${value2}\n`;
-      case nested:
-        return `${acc}${margin}${equalSign}${key}: {\n${stylish(value1)}${margin + marginSizeOfEqualSign}}\n`;
-      case stringified1:
-        if (value2 !== undefined) {
-          return `${acc}${margin}${removedSign}${key}: ${stringifyObj(value1, depth + 1)}\n${margin}${addedSign}${key}: ${(value2)}\n`;
-        }
-        return `${acc}${margin}${removedSign}${key}: ${stringifyObj(value1, depth + 1)}\n`;
-      case stringified2:
-        if (value1 !== undefined) {
-          return `${acc}${margin}${removedSign}${key}: ${(value1)}\n${margin}${addedSign}${key}: ${stringifyObj(value2, depth + 1)}\n`;
-        }
-        return `${acc}${margin}${addedSign}${key}: ${stringifyObj(value2, depth + 1)}\n`;
-      default:
-        throw new Error(`Unknown status: ${status}`);
+const formatItem = (item, depth) => {
+  if (!_.isObject(item)) {
+    return item;
+  }
+  const indent = depth * spaceBeforeBracket;
+  const newIndent = ' '.repeat(indent);
+  const keys = Object.keys(item);
+  const result = keys.map((key) => {
+    if (_.isObject(item[key])) {
+      return `${newIndent} ${key}: ${formatItem(item[key], depth + 1)}`;
     }
-  };
-
-  const result = array.reduce(iter, '');
-  return result;
+    return `${newIndent} ${key}: ${item[key]}`;
+  });
+  return ['{', ...result, `${newIndent}}`].join('\n');
 };
 
-export default stylish;
+const formatToStylish = (data) => {
+  const getItems = (items, depth) => items.flatMap((item) => {
+    const newDepth = depth + 1;
+    // indent нужен для вложенных изменений. На нулевом уровне глубины он будет равен 0
+    const indent = ' '.repeat(depth * spaceBeforeBracket); // отступ в 4 пробела перед открывающей скобкой для вложенных объектов
+    const backIndent = ' '.repeat((depth * spaceBeforeBracket) + spaceBeforeBracket); // и для закрывающей скобки
+    switch (item.status) {
+      case 'nested':
+        // Так как indent равен 0 на плоском объекте, после него добавляются 4 пробела или
+        // 3 пробела и знак + или -. При погружении далее в дерево разница, отступ должен
+        // увеличиваться, поэтому константа spaceBeforeBracket умножается на глубину и записывается
+        // в indent
+        return `${indent} ${item.key}: ${['{', ...getItems(item.children, newDepth), `${backIndent}}`].join('\n')}`;
+      case 'changed':
+        return [`${indent} - ${item.key}: ${formatItem(item.oldValue, newDepth)}`,
+          `${indent} + ${item.key}: ${formatItem(item.newValue, newDepth)}`];
+      case 'removed':
+        return `${indent} - ${item.key}: ${formatItem(item.value, newDepth)}`;
+      case 'added':
+        return `${indent} + ${item.key}: ${formatItem(item.value, newDepth)}`;
+      default:
+        return `${indent} ${item.key}: ${formatItem(item.value, newDepth)}`;
+    }
+  });
+  const result = getItems(data, 0);
+  return ['{', ...result, '}'].join('\n');
+};
+
+export default formatToStylish;
