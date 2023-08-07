@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import fs from 'fs';
 import path from 'path';
 import _ from 'lodash';
@@ -82,7 +83,7 @@ export const compareTreeFormer = (object1, object2) => {
 	return innerTreeFormer(object1, object2, 1);
 };
 
-const genDiff = (path1, path2, format = 'stylish') => {
+export const genDiff = (path1, path2, format = 'stylish') => {
 	if (path1.length === 0 || path2.length === 0) {
 		return 'enter valid path';
 	}
@@ -94,5 +95,3 @@ const genDiff = (path1, path2, format = 'stylish') => {
 	const compareTree = compareTreeFormer(object1, object2);
 	return formatSelector(compareTree, format);
 };
-
-export default genDiff;
