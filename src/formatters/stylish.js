@@ -11,9 +11,9 @@ const formatItem = (item, depth) => {
   const keys = Object.keys(item);
   const result = keys.map((key) => {
     if (_.isObject(item[key])) {
-      return `${newIndent} ${key}: ${formatItem(item[key], depth + 1)}`;
+      return `${newIndent}    ${key}: ${formatItem(item[key], depth + 1)}`;
     }
-    return `${newIndent} ${key}: ${item[key]}`;
+    return `${newIndent}    ${key}: ${item[key]}`;
   });
   return ['{', ...result, `${newIndent}}`].join('\n');
 };
@@ -30,16 +30,16 @@ const formatToStylish = (data) => {
         // 3 пробела и знак + или -. При погружении далее в дерево разница, отступ должен
         // увеличиваться, поэтому константа spaceBeforeBracket умножается на глубину и записывается
         // в indent
-        return `${indent} ${item.key}: ${['{', ...getItems(item.children, newDepth), `${backIndent}}`].join('\n')}`;
+        return `${indent}    ${item.key}: ${['{', ...getItems(item.children, newDepth), `${backIndent}}`].join('\n')}`;
       case 'changed':
-        return [`${indent} - ${item.key}: ${formatItem(item.oldValue, newDepth)}`,
-          `${indent} + ${item.key}: ${formatItem(item.newValue, newDepth)}`];
+        return [`${indent}  - ${item.key}: ${formatItem(item.oldValue, newDepth)}`,
+          `${indent}  + ${item.key}: ${formatItem(item.newValue, newDepth)}`];
       case 'removed':
-        return `${indent} - ${item.key}: ${formatItem(item.value, newDepth)}`;
+        return `${indent}  - ${item.key}: ${formatItem(item.value, newDepth)}`;
       case 'added':
-        return `${indent} + ${item.key}: ${formatItem(item.value, newDepth)}`;
+        return `${indent}  + ${item.key}: ${formatItem(item.value, newDepth)}`;
       default:
-        return `${indent} ${item.key}: ${formatItem(item.value, newDepth)}`;
+        return `${indent}    ${item.key}: ${formatItem(item.value, newDepth)}`;
     }
   });
   const result = getItems(data, 0);
