@@ -1,9 +1,7 @@
 import _ from 'lodash';
 
 const buildTree = (obj1, obj2) => {
-  const keys = _.union(Object.keys(obj1), Object.keys(obj2));
-  // eslint-disable-next-line fp/no-mutating-methods
-  const sortedKeys = keys.sort();
+  const sortedKeys = _.union(Object.keys(obj1), Object.keys(obj2)).sort();
 
   const treePart = sortedKeys.map((key) => {
     const value1 = obj1[key];

@@ -4,21 +4,13 @@ import stringParserToObject from './parsers.js';
 import formatSelector from './formatters/index.js';
 import buildTree from './buildTree.js';
 
-// проверка расширений файлов, определение дальнешего пути работы
 const getFileExtension = (filepath) => path.extname(filepath).slice(1);
 
-// Превращатель пути в абсолютный
 const getAbsolutePath = (filepath) => path.resolve(process.cwd(), filepath);
 
-// Извлекаем строку из файла по указанному пути
 const fileStringExtractor = (absPath) => fs.readFileSync(absPath, 'UTF-8');
 
-// Формирователь АСТ дерева сравнений из 2 объектов
-
 const genDiff = (path1, path2, format = 'stylish') => {
-  if (path1.length === 0 || path2.length === 0) {
-    return 'enter valid path';
-  }
   const [pathAbs1, pathAbs2] = [getAbsolutePath(path1), getAbsolutePath(path2)];
   const [dataString1, dataString2] = [fileStringExtractor(pathAbs1), fileStringExtractor(pathAbs2)];
 
