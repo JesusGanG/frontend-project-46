@@ -24,6 +24,6 @@ test('Default output format', () => {
 });
 
 test('Wrong output format', () => {
-  const error2 = new Error(`${format} not correct. Enter valid format or use default - stylish`);
+  const error2 = new Error('Enter valid format or use default - stylish');
   expect(() => genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'), 'txt')).toThrow(error2);
 });

@@ -7,7 +7,7 @@ const formatSelector = (compareTree, format) => {
   if (formatLowerCase === 'stylish') return stylish(compareTree);
   if (formatLowerCase === 'plain') return plain(compareTree);
   if (formatLowerCase === 'json') return json(compareTree);
-  throw new Error(`${format} not correct. Enter valid format or use default - stylish`);
+  throw new Error('Enter valid format or use default - stylish');
 };
 
 export default formatSelector;
