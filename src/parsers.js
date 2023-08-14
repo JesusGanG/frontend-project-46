@@ -8,7 +8,7 @@ const stringParserToObject = (contentString, format) => {
   if (formatUpperCase === 'YAML' || formatUpperCase === 'YML') {
     return YAML.parse(contentString);
   }
-  throw new Error(`${format} not correct. Try YAML or JSON`);
+  throw new Error(`Format ${format} - is incorrect!. Try YAML or JSON`);
 };
 
 export default stringParserToObject;
